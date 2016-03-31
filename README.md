@@ -3,12 +3,12 @@
 ###Objectives
 After completing this assignment, you should...
 
--Understand all the basics of Python!
--Be able to create an interactive program.
--Be able to choose a random value.
--Be able to keep track of state.
--Be able to read from a file.
--Be able to test your code.
+- Understand all the basics of Python!
+- Be able to create an interactive program.
+- Be able to choose a random value.
+- Be able to keep track of state.
+- Be able to read from a file.
+- Be able to test your code.
 
 ###Deliverables
 - A Git repo named mystery-word containing at least:
@@ -40,17 +40,17 @@ The game will end when the user constructs the full word or runs out of guesses.
 When a game ends, ask the user if they want to play again. The game begins again if they reply positively.
 
 ####Requirements
--Write functions to select a subset of the complete word list.
--Write a function to select a word at random from the word list.
--Write a function to display a word with blanks/letters filled in the appropriate spots.
--Write a function to check if a word has been completely guessed.
--Write other helper functions as necessary to help with the flow of the game.
--Run mystery_word_test.py and ensure you pass all the unit tests.
+- Write functions to select a subset of the complete word list.
+- Write a function to select a word at random from the word list.
+- Write a function to display a word with blanks/letters filled in the appropriate spots.
+- Write a function to check if a word has been completely guessed.
+- Write other helper functions as necessary to help with the flow of the game.
+- Run mystery_word_test.py and ensure you pass all the unit tests.
 
 ####Advanced Mode (optional)
--Implement the evil version of this game.
--Write it in a new Python program named evil_mystery_word.py.
--Write tests for new functionality you introduce in evil_mystery_word_tests.py.
+- Implement the evil version of this game.
+- Write it in a new Python program named evil_mystery_word.py.
+- Write tests for new functionality you introduce in evil_mystery_word_tests.py.
 
 ####Notes
 When testing, keep in mind that testing user input and output is hard. Testing functions that have no side-effects -- that is, they take some arguments and return a value without getting information from input() or using random -- is much easier. Try to keep all your logic in pure functions and then have an outer crust of functions that talk to the user or read from files surrounding your delicious pure function middle. If you are able to do this, you will not need to test that outer crust.
