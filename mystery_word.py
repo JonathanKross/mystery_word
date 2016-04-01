@@ -62,47 +62,88 @@ def generate_random_word(all_words):
 
     return random.choice(all_words)
 
+
 def choose_difficulty():
     """Prompts user to select easy, normal, or hard mode."""
 
     return input("What mode to you want to play in? Easy[e], Normal[n], or Hard[h]: ").lower().strip()
 
 
+def generate_mystery_word(difficulty):
+    """Pass user selected difficulty and generates the mystery word"""
+
+    if difficulty == 'e':
+        return generate_random_word(list_easy_words(create_list_all_words()))
+
+    elif difficulty == 'n':
+        return generate_random_word(list_normal_words(create_list_all_words()))
+
+    elif difficulty == 'h':
+        return generate_random_word(list_hard_words(create_list_all_words()))
+
+
 def guess_letter():
-    """Prompts user to for a letter to guess"""
+    """Prompts user for a letter to guess"""
 
-    return input("Guess a letter. ").lower().strip()
+    letters = "abcdefghijklmnopqrstuvwxyz"
+    guess_attempt = input("Guess a letter: ").lower().strip()
 
+    if len(guess_attempt) >= 2 or guess_attempt == "":
+        print("Looks like that's not a single letter. Try again."
+        continue
+
+    elif guess_attempt in correct_guesses or guess_attempt in incorrect_guesses:
+        print("Looks like you've already guessed that letter. Try again.")
+        continue
+
+    elif guess_attempt not in letters:
+        print("Looks like you didn't guess a letter. Don't guess numbers or special characters.")
+        continue
+
+    else:
+        return guess_attempt
 
 
 def main():
-    print("Welcome to Mystery Word Game!")
-    print("You're allowed 8 chances to guess all of the letters in the mystery word.")
+    while True:
+        print("Welcome to Mystery Word Game!")
+        print("You're allowed 8 chances to guess all of the letters in the mystery word.")
 
-    difficulty = choose_difficulty()
+        mystery_word = generate_mystery_word(choose_difficulty())
 
-    if difficulty == 'e':
-        mystery_word = generate_random_word(list_easy_words(create_list_all_words()))
+        print("Your mystery word has {} letters.".format(len(mystery_word)))
 
-    elif difficulty == 'n':
-        mystery_word = generate_random_word(list_normal_words(create_list_all_words()))
+        guess_limit = 8
+        letters_guessed = []
+        correct_guesses = []
+        incorrect_guesses = []
 
-    elif difficulty == 'h':
-        mystery_word = generate_random_word(list_hard_words(create_list_all_words()))
+        while len(incorrect_guesses) < guess_limit and len(correct_guesses) != len(list(mystery_word)):
 
-    print(mystery_word)
-    # while True:
-    #
-    #     letter_ guess = guess_letter()
-    #
-    #
-    #
-    #
-    #     play_again = input("Do you want to play Mystery Word again? [y/N] \n")
-    #     if play_again.lower().strip() == "y"
-    #         main()
-    #     else:
-    #         sys.exit()
+            for letter in mystery_word:
+                if letter in correct_guesses:
+                    print(letter, end="")
+                else:
+                    print("_", end="")
+            print("")
+            print("Incorrect Guesses: {} out of {}".format(len(incorrect_guesses), guess_limit))
+            print("")
+
+            letter_guess = guess_letter()
+            letters_guessed.append(letter_guess)
+
+
+
+
+        else:
+            print("You're out of guesses!. Your mystery word was {}.".format(mystery_word))
+
+        play_again = input("Do you want to play Mystery Word again? [y/N] \n")
+        if play_again.lower().strip() == "y"
+            main()
+        else:
+            sys.exit()
+
 
 if __name__ == '__main__':
     main()
