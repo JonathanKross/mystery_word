@@ -13,7 +13,7 @@ def create_list_all_words(path='/usr/share/dict/words'):
         all_words = []
 
         for word in file:
-            all_words.append(word.strip())
+            all_words.append(word.strip().upper())
 
         return all_words
 
@@ -57,17 +57,25 @@ def list_hard_words(all_words):
     return list_hard_words
 
 
-def generate_random_word(all_words):
+def generate_random_word(list_of_words):
     """Returns a random word from inputted words list."""
 
-    return random.choice(all_words)
+    return random.choice(list_of_words)
 
 
 def choose_difficulty():
     """Prompts user to select easy, normal, or hard mode."""
 
-    return input("What mode to you want to play in? Easy[e], Normal[n], or Hard[h]: ").lower().strip()
+    while True:
 
+        difficulty = input("What mode to you want to play?\nEasy[e], Normal[n], or Hard[h]: ").lower().strip()
+
+        if difficulty not in 'enh' or difficulty == "":
+            print("Type 'e' for Easy, 'n' for Normal, 'h' for Hard.")
+            continue
+
+        else:
+            return difficulty
 
 def generate_mystery_word(difficulty):
     """Pass user selected difficulty and generates the mystery word"""
@@ -85,34 +93,71 @@ def generate_mystery_word(difficulty):
 def guess_letter(correct_guesses, incorrect_guesses):
     """Prompts user for a letter to guess"""
 
-    letters = "abcdefghijklmnopqrstuvwxyz"
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
     while True:
 
-        guess_attempt = input("Guess a letter: ").lower().strip()
+        guess_attempt = input("Guess a letter: ").upper().strip()
 
         if len(guess_attempt) >= 2 or guess_attempt == "":
-            print("Looks like that's not a single letter. Try again.")
-            continue
+            print("Looks like that's not a single letter. Try again.\n")
 
         elif guess_attempt in correct_guesses or guess_attempt in incorrect_guesses:
-            print("Looks like you've already guessed that letter. Try again.")
-            continue
+            print("Looks like you've already guessed that letter. Try again.\n")
 
-        elif guess_attempt not in letters:
-            print("Looks like you didn't guess a letter. Don't guess numbers or special characters.")
-            continue
+        elif guess_attempt not in alphabet:
+            print("Looks like you didn't guess a letter. Don't guess numbers or special characters.\n")
 
         else:
             return guess_attempt
 
-def display_visual_guesses(mystery_word):
+
+def display_visual_guesses(mystery_word, correct_guesses):
+#found how to not print a newline on every print statement here:
+#https://stackoverflow.com/questions/493386/how-to-print-in-python-without-newline-or-space
 
     for letter in mystery_word:
-        if letter in correct_guesses:
-            print(letter, end="")
-        else:
-            print("_", end="")
 
+        if letter in correct_guesses:
+            print(letter.upper(), end=" ")
+
+        else:
+            print("_", end=" ")
+
+
+def test_win_game(letter_guessed, mystery_word, correct_guesses, incorrect_guesses, max_number_guesses):
+
+    if letter_guessed in mystery_word:
+        correct_guesses.append(letter_guessed)
+
+        if len(correct_guesses) == len(list(mystery_word)):
+            print("Congrats! You won! The mystery word was {}.".format(mystery_word))
+            play_again()
+
+
+    else:
+        incorrect_guesses.append(letter_guessed)
+        print("\nIncorrect Guesses: {} out of {}\n".format(len(incorrect_guesses), max_number_guesses))
+
+
+def is_word_complete(mystery_word, correct_guesses):
+
+    if len(correct_guesses) == len(list(mystery_word)):
+        return True
+
+    else:
+        return False
+
+
+def play_again():
+
+    play_again = input("Do you want to play Mystery Word again? [y/N] \n")
+
+    if play_again.lower().strip() == "y":
+        main()
+
+    else:
+        sys.exit()
 
 
 def main():
@@ -126,51 +171,24 @@ def main():
 
     mystery_word = generate_mystery_word(choose_difficulty())
 
-    print("Your mystery word has {} letters.\n".format(len(mystery_word)))
+    print("\nYour mystery word has {} letters.\n".format(len(mystery_word)))
 
-    while True:
+    while len(incorrect_guesses) < max_number_guesses and len(correct_guesses) != len(list(mystery_word)):
 
-        # display_visual_guesses(mystery_word)
+        display_visual_guesses(mystery_word, correct_guesses)
 
-        while len(incorrect_guesses) < max_number_guesses and len(correct_guesses) != len(list(mystery_word)):
+        print()
 
-            # print("_ " * len(mystery_word))
-            for letter in mystery_word:
-                if letter in correct_guesses:
-                    print(letter, " ", end="")
-                else:
-                    print("_ ", end="")
+        letter_guessed = guess_letter(correct_guesses, incorrect_guesses)
 
-            print("\n")
+        print()
 
-            letter_guessed = guess_letter(correct_guesses, incorrect_guesses)
+        test_win_game(letter_guessed, mystery_word, correct_guesses, incorrect_guesses, max_number_guesses)
 
-            if letter_guessed in mystery_word:
-                correct_guesses.append(letter_guessed)
-                if len(correct_guesses) == len(list(mystery_word)):
-                    print("Congrats! You won! The mystery word was {}.".format(mystery_word))
-            else:
-                incorrect_guesses.append(letter_guessed)
+    else:
+        print("You're out of guesses!. Your mystery word was {}.".format(mystery_word))
 
-            print("\nIncorrect Guesses: {} out of {}\n".format(len(incorrect_guesses), max_number_guesses))
-            # display_visual_guesses(mystery_word, letter_guessed)
-
-
-
-
-
-        else:
-            print("You're out of guesses!. Your mystery word was {}.".format(mystery_word))
-
-        play_again = input("Do you want to play Mystery Word again? [y/N] \n")
-
-        if play_again.lower().strip() == "y":
-            main()
-
-        else:
-            sys.exit()
-
-
+    play_again()
 
 
 if __name__ == '__main__':
