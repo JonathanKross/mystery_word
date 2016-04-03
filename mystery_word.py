@@ -71,7 +71,7 @@ def choose_difficulty():
         difficulty = input("What mode to you want to play?\nEasy[e], Normal[n], or Hard[h]: ").lower().strip()
 
         if difficulty not in 'enh' or difficulty == "":
-            print("Type 'e' for Easy, 'n' for Normal, 'h' for Hard.")
+            print("\nType 'e' for Easy, 'n' for Normal, 'h' for Hard.\n")
             continue
 
         else:
@@ -115,38 +115,42 @@ def guess_letter(correct_guesses, incorrect_guesses):
 def display_visual_guesses(mystery_word, correct_guesses):
 #found how to not print a newline on every print statement here:
 #https://stackoverflow.com/questions/493386/how-to-print-in-python-without-newline-or-space
-
+    # visual = ""
     for letter in mystery_word:
 
         if letter in correct_guesses:
             print(letter.upper(), end=" ")
+            # visual += letter
 
         else:
             print("_", end=" ")
+            # visual += "_"
+
+    # return visual
 
 
-def test_win_game(letter_guessed, mystery_word, correct_guesses, incorrect_guesses, max_number_guesses):
+def update_guess_lists(letter_guessed, mystery_word, correct_guesses, incorrect_guesses):
 
     if letter_guessed in mystery_word:
         correct_guesses.append(letter_guessed)
 
-        if len(correct_guesses) == len(list(mystery_word)):
-            print("Congrats! You won! The mystery word was {}.".format(mystery_word))
-            play_again()
-
-
     else:
         incorrect_guesses.append(letter_guessed)
-        print("\nIncorrect Guesses: {} out of {}\n".format(len(incorrect_guesses), max_number_guesses))
 
 
 def is_word_complete(mystery_word, correct_guesses):
 
-    if len(correct_guesses) == len(list(mystery_word)):
-        return True
-
-    else:
-        return False
+    game_won = False
+    for letter in mystery_word:
+        if letter not in correct_guesses:
+            game_won = False
+            break
+        elif letter in correct_guesses:
+            game_won = True
+            continue
+    if game_won == True:
+        print("Congrats! You won! The mystery word was {}.".format(mystery_word))
+        play_again()
 
 
 def play_again():
@@ -180,10 +184,10 @@ def main():
         print()
 
         letter_guessed = guess_letter(correct_guesses, incorrect_guesses)
+        update_guess_lists(letter_guessed, mystery_word, correct_guesses, incorrect_guesses)
+        is_word_complete(mystery_word, correct_guesses)
 
-        print()
-
-        test_win_game(letter_guessed, mystery_word, correct_guesses, incorrect_guesses, max_number_guesses)
+        print("\nIncorrect Guesses: {} out of {}\n".format(len(incorrect_guesses), max_number_guesses))
 
     else:
         print("You're out of guesses!. Your mystery word was {}.".format(mystery_word))
