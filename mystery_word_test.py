@@ -31,12 +31,12 @@ class TestMysteryWord(unittest.TestCase):
 
     def test_display_visual_guesses(self):
         word = "INTEGRATION"
-        self.assertEqual(display_visual_guesses(word, []), "_ _ _ _ _ _ _ _ _ _ _")
-        self.assertEqual(display_visual_guesses(word, ["Z"]), "_ _ _ _ _ _ _ _ _ _ _")
-        self.assertEqual(display_visual_guesses(word, ["G"]), "_ _ _ _ G _ _ _ _ _ _")
-        self.assertEqual(display_visual_guesses(word, ["I"]), "I _ _ _ _ _ _ _ I _ _")
-        self.assertEqual(display_visual_guesses(word, ["I", "G"]), "I _ _ _ G _ _ _ I _ _")
-        self.assertEqual(display_visual_guesses(word, ["I", "N", "Z"]), "I N _ _ _ _ _ _ I _ N")
+        self.assertEqual(display_visual_guesses(word, []), "___________")
+        self.assertEqual(display_visual_guesses(word, ["Z"]), "___________")
+        self.assertEqual(display_visual_guesses(word, ["G"]), "____G______")
+        self.assertEqual(display_visual_guesses(word, ["I"]), "I_______I__")
+        self.assertEqual(display_visual_guesses(word, ["I", "G"]), "I___G___I__")
+        self.assertEqual(display_visual_guesses(word, ["I", "N", "Z"]), "IN______I_N")
 
 
     def test_is_word_complete(self):

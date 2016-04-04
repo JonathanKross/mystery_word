@@ -113,6 +113,7 @@ def guess_letter(correct_guesses, incorrect_guesses):
 
 
 def display_visual_guesses(mystery_word, correct_guesses):
+    """Displays correctly guessed letters and underscores for letters left to guess"""
 #found how to not print a newline on every print statement here:
 #https://stackoverflow.com/questions/493386/how-to-print-in-python-without-newline-or-space
     # visual = ""
@@ -130,6 +131,7 @@ def display_visual_guesses(mystery_word, correct_guesses):
 
 
 def update_guess_lists(letter_guessed, mystery_word, correct_guesses, incorrect_guesses):
+    """Updates the correct_guesses list and the incorrect_guesses list"""
 
     if letter_guessed in mystery_word:
         correct_guesses.append(letter_guessed)
@@ -139,21 +141,31 @@ def update_guess_lists(letter_guessed, mystery_word, correct_guesses, incorrect_
 
 
 def is_word_complete(mystery_word, correct_guesses):
+    """
+    Tests if the word has be completely guessed.
+    If guessed, asks if user wants to play game again.
+    If not completely guessed, the game continues, as long as the max_number_guesses has not been reached.
+    """
 
     game_won = False
+
     for letter in mystery_word:
+
         if letter not in correct_guesses:
             game_won = False
             break
+
         elif letter in correct_guesses:
             game_won = True
             continue
+
     if game_won == True:
         print("Congrats! You won! The mystery word was {}.".format(mystery_word))
         play_again()
 
 
 def play_again():
+    "Asks user if they want to play the game again."
 
     play_again = input("Do you want to play Mystery Word again? [y/N] \n")
 
